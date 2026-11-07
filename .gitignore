@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Generated demo data (keep fixtures + generators, ignore rendered pages)
+/artifacts/
+/reports/
+*.report.html
+
+# Test scratch directories (tests clean up, keep for safety)
+tests/tmp_*/
+tests/_tmp/
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
