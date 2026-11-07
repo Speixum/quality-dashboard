@@ -1,0 +1,159 @@
+{
+  "schema": "dataset-lineage/1.0",
+  "run_id": "run-20261108-0421",
+  "name": "orders_daily",
+  "started_at": "2026-11-08T00:42:10Z",
+  "finished_at": "2026-11-08T00:48:33Z",
+  "status": "failed",
+  "env": {
+    "python": "3.11.9",
+    "engine": "qdash",
+    "host": "win-dev"
+  },
+  "nodes": [
+    {
+      "id": "ingest_raw",
+      "step": "ingest_raw",
+      "seq": 0,
+      "status": "success",
+      "started_at": "2026-11-08T00:42:10Z",
+      "duration_ms": 42000,
+      "params": {
+        "source": "orders_api",
+        "batch": "2026-11-08"
+      },
+      "inputs": [
+        "orders_api"
+      ],
+      "outputs": [
+        "raw/orders.csv"
+      ],
+      "error": null,
+      "unstable": false
+    },
+    {
+      "id": "validate_schema",
+      "step": "validate_schema",
+      "seq": 1,
+      "status": "success",
+      "started_at": "2026-11-08T00:42:52Z",
+      "duration_ms": 8300,
+      "params": {
+        "contract": "orders_v2"
+      },
+      "inputs": [
+        "raw/orders.csv"
+      ],
+      "outputs": [
+        "staged/orders.csv"
+      ],
+      "error": null,
+      "unstable": false
+    },
+    {
+      "id": "normalize_types",
+      "step": "normalize_types",
+      "seq": 2,
+      "status": "success",
+      "started_at": "2026-11-08T00:43:00Z",
+      "duration_ms": 5100,
+      "params": {
+        "timezone": "UTC"
+      },
+      "inputs": [
+        "staged/orders.csv"
+      ],
+      "outputs": [
+        "staged/orders_typed.parquet"
+      ],
+      "error": null,
+      "unstable": false
+    },
+    {
+      "id": "build_features",
+      "step": "build_features",
+      "seq": 3,
+      "status": "warning",
+      "started_at": "2026-11-08T00:43:05Z",
+      "duration_ms": 18700,
+      "params": {
+        "window_days": 30
+      },
+      "inputs": [
+        "staged/orders_typed.parquet"
+      ],
+      "outputs": [
+        "features/orders_daily.parquet"
+      ],
+      "error": null,
+      "unstable": true
+    },
+    {
+      "id": "export_dw",
+      "step": "export_dw",
+      "seq": 4,
+      "status": "success",
+      "started_at": "2026-11-08T00:43:24Z",
+      "duration_ms": 12600,
+      "params": {
+        "target": "warehouse.orders_daily"
+      },
+      "inputs": [
+        "features/orders_daily.parquet"
+      ],
+      "outputs": [
+        "warehouse.orders_daily"
+      ],
+      "error": null,
+      "unstable": false
+    },
+    {
+      "id": "quality_gate",
+      "step": "quality_gate",
+      "seq": 5,
+      "status": "failed",
+      "started_at": "2026-11-08T00:43:36Z",
+      "duration_ms": 3200,
+      "params": {
+        "gate": "completeness",
+        "threshold": 0.9
+      },
+      "inputs": [
+        "features/orders_daily.parquet"
+      ],
+      "outputs": [],
+      "error": {
+        "code": "DQ_GATE",
+        "message": "completeness 0.82 below threshold 0.90"
+      },
+      "unstable": false
+    }
+  ],
+  "edges": [
+    {
+      "from": "ingest_raw",
+      "to": "validate_schema",
+      "label": "raw"
+    },
+    {
+      "from": "validate_schema",
+      "to": "normalize_types",
+      "label": "staged"
+    },
+    {
+      "from": "normalize_types",
+      "to": "build_features",
+      "label": "typed"
+    },
+    {
+      "from": "build_features",
+      "to": "export_dw",
+      "label": "features"
+    },
+    {
+      "from": "build_features",
+      "to": "quality_gate",
+      "label": "gate"
+    }
+  ]
+}

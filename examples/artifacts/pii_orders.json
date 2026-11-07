@@ -1,0 +1,178 @@
+{
+  "schema": "pii-hits/1.0",
+  "source": "orders_daily",
+  "generated_at": "2026-11-08T01:12:00Z",
+  "findings": [
+    {
+      "type": "phone",
+      "level": "high_sensitive",
+      "confidence": "high",
+      "score": 0.98,
+      "offset": 620,
+      "end": 631,
+      "line": 4,
+      "col": 20,
+      "length": 11,
+      "preview": "138****1111",
+      "checksum": "sha256:ef01d2a9f7f42c191a21eaed17c27a3455bd72fc7f34e4fbaa5210cc9cc21f59",
+      "reasons": [
+        "regex:cn_mobile",
+        "column:phone"
+      ]
+    },
+    {
+      "type": "phone",
+      "level": "sensitive",
+      "confidence": "medium",
+      "score": 0.86,
+      "offset": 1818,
+      "end": 1829,
+      "line": 10,
+      "col": 18,
+      "length": 11,
+      "preview": "139****2222",
+      "checksum": "sha256:21f9501d1951558ede90a13e23684201751021284c48b9b226d3b36fe76a4023",
+      "reasons": [
+        "regex:cn_mobile"
+      ]
+    },
+    {
+      "type": "phone",
+      "level": "sensitive",
+      "confidence": "medium",
+      "score": 0.81,
+      "offset": 2618,
+      "end": 2629,
+      "line": 14,
+      "col": 18,
+      "length": 11,
+      "preview": "134****0000",
+      "checksum": "sha256:5bc4bd4ac868ae50ceaf9e5a4e05a970b929244438307ebfc46406b3e341a0a3",
+      "reasons": [
+        "context:remark"
+      ]
+    },
+    {
+      "type": "email",
+      "level": "sensitive",
+      "confidence": "high",
+      "score": 0.94,
+      "offset": 432,
+      "end": 453,
+      "line": 3,
+      "col": 32,
+      "length": 21,
+      "preview": "a***@example.com",
+      "checksum": "sha256:47f59901793cc37c5caca049fe8e9b104c5868c56c75afafae911e6b82dd74d3",
+      "reasons": [
+        "regex:email"
+      ]
+    },
+    {
+      "type": "email",
+      "level": "sensitive",
+      "confidence": "medium",
+      "score": 0.78,
+      "offset": 2232,
+      "end": 2254,
+      "line": 12,
+      "col": 32,
+      "length": 22,
+      "preview": "b***@example.com",
+      "checksum": "sha256:31306d1f4a634ccd04bf6a5bdd1076cf857d9dcf87d07ba2a1eac4e886fdc560",
+      "reasons": [
+        "regex:email"
+      ]
+    },
+    {
+      "type": "id_card",
+      "level": "high_sensitive",
+      "confidence": "high",
+      "score": 0.99,
+      "offset": 1224,
+      "end": 1242,
+      "line": 7,
+      "col": 24,
+      "length": 18,
+      "preview": "110101********1234",
+      "checksum": "sha256:e61f75f087082720399867df42ba8608aa46872a2ccb599d83bd253ef352f564",
+      "reasons": [
+        "regex:cn_id",
+        "checksum:valid"
+      ]
+    },
+    {
+      "type": "id_card",
+      "level": "high_sensitive",
+      "confidence": "medium",
+      "score": 0.88,
+      "offset": 3024,
+      "end": 3042,
+      "line": 16,
+      "col": 24,
+      "length": 18,
+      "preview": "310101********5678",
+      "checksum": "sha256:9db94d5f04cec4467f832f91f3611a3e11b5d3fcb19800dc7acf7bcf2356ae5a",
+      "reasons": [
+        "regex:cn_id"
+      ]
+    },
+    {
+      "type": "bank_card",
+      "level": "high_sensitive",
+      "confidence": "high",
+      "score": 0.97,
+      "offset": 1426,
+      "end": 1445,
+      "line": 8,
+      "col": 26,
+      "length": 19,
+      "preview": "6222 **** **** 1234",
+      "checksum": "sha256:8825d221cb2051b49311266d4269113227c0c9b0abe01e37cbdd53b7a0ee8162",
+      "reasons": [
+        "luhn:valid"
+      ]
+    },
+    {
+      "type": "address",
+      "level": "general",
+      "confidence": "low",
+      "score": 0.62,
+      "offset": 3812,
+      "end": 3826,
+      "line": 20,
+      "col": 12,
+      "length": 14,
+      "preview": "上海市浦东新区***",
+      "checksum": "sha256:2893d39d8590910174cff9bac149b4c564260933d9dc6e96c5b4187334122500",
+      "reasons": [
+        "keyword:address"
+      ]
+    }
+  ],
+  "summary": {
+    "total": 9,
+    "by_type": {
+      "phone": 3,
+      "email": 2,
+      "id_card": 2,
+      "bank_card": 1,
+      "address": 1
+    },
+    "by_confidence": {
+      "high": 4,
+      "medium": 4,
+      "low": 1
+    },
+    "by_level": {
+      "high_sensitive": 4,
+      "sensitive": 4,
+      "general": 1
+    }
+  },
+  "ruleset": {
+    "name": "cn-pii",
+    "version": "1.4.0",
+    "file": "rules/cn-pii.json"
+  }
+}

@@ -1,0 +1,596 @@
+{
+  "schema": "data-quality-report/1.0",
+  "generated_at": "2026-11-08T01:40:00Z",
+  "subject": {
+    "name": "orders_daily",
+    "version": "v2.4.1",
+    "owner": "data-platform"
+  },
+  "summary": {
+    "score": 86.3,
+    "grade": "B",
+    "checks_total": 1200,
+    "checks_passed": 1104,
+    "issues_total": 8,
+    "issues_open": 5
+  },
+  "dimensions": [
+    {
+      "key": "completeness",
+      "name": "完整性",
+      "score": 92.5,
+      "weight": 0.25
+    },
+    {
+      "key": "uniqueness",
+      "name": "唯一性",
+      "score": 88.0,
+      "weight": 0.2
+    },
+    {
+      "key": "validity",
+      "name": "有效性",
+      "score": 76.4,
+      "weight": 0.25
+    },
+    {
+      "key": "consistency",
+      "name": "一致性",
+      "score": 95.0,
+      "weight": 0.15
+    },
+    {
+      "key": "timeliness",
+      "name": "及时性",
+      "score": 81.2,
+      "weight": 0.15
+    }
+  ],
+  "issues": [
+    {
+      "id": "Q-001",
+      "dimension": "completeness",
+      "severity": "high",
+      "title": "user_id 存在空值",
+      "count": 14,
+      "sample": "row 37: user_id=''",
+      "status": "open",
+      "owner": "data-platform",
+      "first_seen": "2026-10-30"
+    },
+    {
+      "id": "Q-002",
+      "dimension": "uniqueness",
+      "severity": "high",
+      "title": "order_id 存在重复值",
+      "count": 6,
+      "sample": "order_id=O10003",
+      "status": "open",
+      "owner": "data-platform",
+      "first_seen": "2026-10-31"
+    },
+    {
+      "id": "Q-003",
+      "dimension": "validity",
+      "severity": "medium",
+      "title": "amount_cents 超出允许范围",
+      "count": 9,
+      "sample": "amount_cents=-1200",
+      "status": "open",
+      "owner": "payments-team",
+      "first_seen": "2026-11-01"
+    },
+    {
+      "id": "Q-004",
+      "dimension": "validity",
+      "severity": "medium",
+      "title": "email 格式不匹配",
+      "count": 4,
+      "sample": "row 88: email=not-an-email",
+      "status": "fixed",
+      "owner": "growth-team",
+      "first_seen": "2026-10-28"
+    },
+    {
+      "id": "Q-005",
+      "dimension": "validity",
+      "severity": "low",
+      "title": "phone 长度越界",
+      "count": 3,
+      "sample": "row 103: phone=1340000",
+      "status": "open",
+      "owner": "growth-team",
+      "first_seen": "2026-11-02"
+    },
+    {
+      "id": "Q-006",
+      "dimension": "consistency",
+      "severity": "medium",
+      "title": "status 与 payment_status 不一致",
+      "count": 2,
+      "sample": "refunded != paid",
+      "status": "ignored",
+      "owner": "payments-team",
+      "first_seen": "2026-10-26"
+    },
+    {
+      "id": "Q-007",
+      "dimension": "timeliness",
+      "severity": "high",
+      "title": "event_date 数据已过期",
+      "count": 3,
+      "sample": "event_date=2026-09-20",
+      "status": "open",
+      "owner": "data-platform",
+      "first_seen": "2026-11-03"
+    },
+    {
+      "id": "Q-008",
+      "dimension": "completeness",
+      "severity": "low",
+      "title": "coupon_code 存在空值",
+      "count": 25,
+      "sample": "row 12: coupon_code=''",
+      "status": "fixed",
+      "owner": "growth-team",
+      "first_seen": "2026-10-25"
+    }
+  ],
+  "distributions": [
+    {
+      "name": "问题严重度分布",
+      "buckets": [
+        {
+          "label": "高",
+          "value": 3
+        },
+        {
+          "label": "中",
+          "value": 3
+        },
+        {
+          "label": "低",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "问题维度分布",
+      "buckets": [
+        {
+          "label": "完整性",
+          "value": 2
+        },
+        {
+          "label": "唯一性",
+          "value": 1
+        },
+        {
+          "label": "有效性",
+          "value": 3
+        },
+        {
+          "label": "一致性",
+          "value": 1
+        },
+        {
+          "label": "及时性",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "lineage": {
+    "schema": "dataset-lineage/1.0",
+    "run_id": "run-20261108-0421",
+    "name": "orders_daily",
+    "started_at": "2026-11-08T00:42:10Z",
+    "finished_at": "2026-11-08T00:48:33Z",
+    "status": "failed",
+    "env": {
+      "python": "3.11.9",
+      "engine": "qdash",
+      "host": "win-dev"
+    },
+    "nodes": [
+      {
+        "id": "ingest_raw",
+        "step": "ingest_raw",
+        "seq": 0,
+        "status": "success",
+        "started_at": "2026-11-08T00:42:10Z",
+        "duration_ms": 42000,
+        "params": {
+          "source": "orders_api",
+          "batch": "2026-11-08"
+        },
+        "inputs": [
+          "orders_api"
+        ],
+        "outputs": [
+          "raw/orders.csv"
+        ],
+        "error": null,
+        "unstable": false
+      },
+      {
+        "id": "validate_schema",
+        "step": "validate_schema",
+        "seq": 1,
+        "status": "success",
+        "started_at": "2026-11-08T00:42:52Z",
+        "duration_ms": 8300,
+        "params": {
+          "contract": "orders_v2"
+        },
+        "inputs": [
+          "raw/orders.csv"
+        ],
+        "outputs": [
+          "staged/orders.csv"
+        ],
+        "error": null,
+        "unstable": false
+      },
+      {
+        "id": "normalize_types",
+        "step": "normalize_types",
+        "seq": 2,
+        "status": "success",
+        "started_at": "2026-11-08T00:43:00Z",
+        "duration_ms": 5100,
+        "params": {
+          "timezone": "UTC"
+        },
+        "inputs": [
+          "staged/orders.csv"
+        ],
+        "outputs": [
+          "staged/orders_typed.parquet"
+        ],
+        "error": null,
+        "unstable": false
+      },
+      {
+        "id": "build_features",
+        "step": "build_features",
+        "seq": 3,
+        "status": "warning",
+        "started_at": "2026-11-08T00:43:05Z",
+        "duration_ms": 18700,
+        "params": {
+          "window_days": 30
+        },
+        "inputs": [
+          "staged/orders_typed.parquet"
+        ],
+        "outputs": [
+          "features/orders_daily.parquet"
+        ],
+        "error": null,
+        "unstable": true
+      },
+      {
+        "id": "export_dw",
+        "step": "export_dw",
+        "seq": 4,
+        "status": "success",
+        "started_at": "2026-11-08T00:43:24Z",
+        "duration_ms": 12600,
+        "params": {
+          "target": "warehouse.orders_daily"
+        },
+        "inputs": [
+          "features/orders_daily.parquet"
+        ],
+        "outputs": [
+          "warehouse.orders_daily"
+        ],
+        "error": null,
+        "unstable": false
+      },
+      {
+        "id": "quality_gate",
+        "step": "quality_gate",
+        "seq": 5,
+        "status": "failed",
+        "started_at": "2026-11-08T00:43:36Z",
+        "duration_ms": 3200,
+        "params": {
+          "gate": "completeness",
+          "threshold": 0.9
+        },
+        "inputs": [
+          "features/orders_daily.parquet"
+        ],
+        "outputs": [],
+        "error": {
+          "code": "DQ_GATE",
+          "message": "completeness 0.82 below threshold 0.90"
+        },
+        "unstable": false
+      }
+    ],
+    "edges": [
+      {
+        "from": "ingest_raw",
+        "to": "validate_schema",
+        "label": "raw"
+      },
+      {
+        "from": "validate_schema",
+        "to": "normalize_types",
+        "label": "staged"
+      },
+      {
+        "from": "normalize_types",
+        "to": "build_features",
+        "label": "typed"
+      },
+      {
+        "from": "build_features",
+        "to": "export_dw",
+        "label": "features"
+      },
+      {
+        "from": "build_features",
+        "to": "quality_gate",
+        "label": "gate"
+      }
+    ]
+  },
+  "pii": {
+    "schema": "pii-hits/1.0",
+    "source": "orders_daily",
+    "generated_at": "2026-11-08T01:12:00Z",
+    "findings": [
+      {
+        "type": "phone",
+        "level": "high_sensitive",
+        "confidence": "high",
+        "score": 0.98,
+        "offset": 620,
+        "end": 631,
+        "line": 4,
+        "col": 20,
+        "length": 11,
+        "preview": "138****1111",
+        "checksum": "sha256:ef01d2a9f7f42c191a21eaed17c27a3455bd72fc7f34e4fbaa5210cc9cc21f59",
+        "reasons": [
+          "regex:cn_mobile",
+          "column:phone"
+        ]
+      },
+      {
+        "type": "phone",
+        "level": "sensitive",
+        "confidence": "medium",
+        "score": 0.86,
+        "offset": 1818,
+        "end": 1829,
+        "line": 10,
+        "col": 18,
+        "length": 11,
+        "preview": "139****2222",
+        "checksum": "sha256:21f9501d1951558ede90a13e23684201751021284c48b9b226d3b36fe76a4023",
+        "reasons": [
+          "regex:cn_mobile"
+        ]
+      },
+      {
+        "type": "phone",
+        "level": "sensitive",
+        "confidence": "medium",
+        "score": 0.81,
+        "offset": 2618,
+        "end": 2629,
+        "line": 14,
+        "col": 18,
+        "length": 11,
+        "preview": "134****0000",
+        "checksum": "sha256:5bc4bd4ac868ae50ceaf9e5a4e05a970b929244438307ebfc46406b3e341a0a3",
+        "reasons": [
+          "context:remark"
+        ]
+      },
+      {
+        "type": "email",
+        "level": "sensitive",
+        "confidence": "high",
+        "score": 0.94,
+        "offset": 432,
+        "end": 453,
+        "line": 3,
+        "col": 32,
+        "length": 21,
+        "preview": "a***@example.com",
+        "checksum": "sha256:47f59901793cc37c5caca049fe8e9b104c5868c56c75afafae911e6b82dd74d3",
+        "reasons": [
+          "regex:email"
+        ]
+      },
+      {
+        "type": "email",
+        "level": "sensitive",
+        "confidence": "medium",
+        "score": 0.78,
+        "offset": 2232,
+        "end": 2254,
+        "line": 12,
+        "col": 32,
+        "length": 22,
+        "preview": "b***@example.com",
+        "checksum": "sha256:31306d1f4a634ccd04bf6a5bdd1076cf857d9dcf87d07ba2a1eac4e886fdc560",
+        "reasons": [
+          "regex:email"
+        ]
+      },
+      {
+        "type": "id_card",
+        "level": "high_sensitive",
+        "confidence": "high",
+        "score": 0.99,
+        "offset": 1224,
+        "end": 1242,
+        "line": 7,
+        "col": 24,
+        "length": 18,
+        "preview": "110101********1234",
+        "checksum": "sha256:e61f75f087082720399867df42ba8608aa46872a2ccb599d83bd253ef352f564",
+        "reasons": [
+          "regex:cn_id",
+          "checksum:valid"
+        ]
+      },
+      {
+        "type": "id_card",
+        "level": "high_sensitive",
+        "confidence": "medium",
+        "score": 0.88,
+        "offset": 3024,
+        "end": 3042,
+        "line": 16,
+        "col": 24,
+        "length": 18,
+        "preview": "310101********5678",
+        "checksum": "sha256:9db94d5f04cec4467f832f91f3611a3e11b5d3fcb19800dc7acf7bcf2356ae5a",
+        "reasons": [
+          "regex:cn_id"
+        ]
+      },
+      {
+        "type": "bank_card",
+        "level": "high_sensitive",
+        "confidence": "high",
+        "score": 0.97,
+        "offset": 1426,
+        "end": 1445,
+        "line": 8,
+        "col": 26,
+        "length": 19,
+        "preview": "6222 **** **** 1234",
+        "checksum": "sha256:8825d221cb2051b49311266d4269113227c0c9b0abe01e37cbdd53b7a0ee8162",
+        "reasons": [
+          "luhn:valid"
+        ]
+      },
+      {
+        "type": "address",
+        "level": "general",
+        "confidence": "low",
+        "score": 0.62,
+        "offset": 3812,
+        "end": 3826,
+        "line": 20,
+        "col": 12,
+        "length": 14,
+        "preview": "上海市浦东新区***",
+        "checksum": "sha256:2893d39d8590910174cff9bac149b4c564260933d9dc6e96c5b4187334122500",
+        "reasons": [
+          "keyword:address"
+        ]
+      }
+    ],
+    "summary": {
+      "total": 9,
+      "by_type": {
+        "phone": 3,
+        "email": 2,
+        "id_card": 2,
+        "bank_card": 1,
+        "address": 1
+      },
+      "by_confidence": {
+        "high": 4,
+        "medium": 4,
+        "low": 1
+      },
+      "by_level": {
+        "high_sensitive": 4,
+        "sensitive": 4,
+        "general": 1
+      }
+    },
+    "ruleset": {
+      "name": "cn-pii",
+      "version": "1.4.0",
+      "file": "rules/cn-pii.json"
+    }
+  },
+  "model_fitness": {
+    "models": [
+      {
+        "name": "quality-bert",
+        "metrics": {
+          "f1": 0.91,
+          "accuracy": 0.94,
+          "coverage": 0.88
+        },
+        "thresholds": {
+          "f1": 0.9,
+          "accuracy": 0.92,
+          "coverage": 0.9
+        },
+        "verdict": "warn"
+      },
+      {
+        "name": "rule-baseline",
+        "metrics": {
+          "f1": 0.72,
+          "accuracy": 0.8,
+          "coverage": 0.7
+        },
+        "thresholds": {
+          "f1": 0.85,
+          "accuracy": 0.82,
+          "coverage": 0.75
+        },
+        "verdict": "fail"
+      },
+      {
+        "name": "mini-llm",
+        "metrics": {
+          "f1": 0.83,
+          "accuracy": 0.86,
+          "coverage": 0.82
+        },
+        "thresholds": {
+          "f1": 0.85,
+          "accuracy": 0.88,
+          "coverage": 0.8
+        },
+        "verdict": "warn"
+      }
+    ]
+  },
+  "trend": [
+    {
+      "date": "2026-10-01",
+      "score": 71.2
+    },
+    {
+      "date": "2026-10-08",
+      "score": 74.8
+    },
+    {
+      "date": "2026-10-15",
+      "score": 73.5
+    },
+    {
+      "date": "2026-10-22",
+      "score": 78.9
+    },
+    {
+      "date": "2026-10-29",
+      "score": 81.4
+    },
+    {
+      "date": "2026-11-05",
+      "score": 84.7
+    },
+    {
+      "date": "2026-11-08",
+      "score": 86.3
+    }
+  ]
+}

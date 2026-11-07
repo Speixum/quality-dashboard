@@ -1,0 +1,86 @@
+{
+  "schema": "quality-rules/1.0",
+  "rules": [
+    {
+      "id": "R-001",
+      "type": "required",
+      "column": "user_id",
+      "severity": "high",
+      "owner": "data-platform",
+      "title": "user_id 不能为空"
+    },
+    {
+      "id": "R-002",
+      "type": "required",
+      "column": "coupon_code",
+      "severity": "low",
+      "owner": "growth-team",
+      "title": "coupon_code 建议补全"
+    },
+    {
+      "id": "R-003",
+      "type": "unique",
+      "column": "order_id",
+      "severity": "high",
+      "owner": "data-platform",
+      "title": "order_id 必须唯一"
+    },
+    {
+      "id": "R-004",
+      "type": "range",
+      "column": "amount_cents",
+      "min": 0,
+      "max": 500000,
+      "severity": "medium",
+      "owner": "payments-team",
+      "title": "amount_cents 必须在 0 到 500000 之间"
+    },
+    {
+      "id": "R-005",
+      "type": "regex",
+      "column": "email",
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+      "mode": "fullmatch",
+      "severity": "medium",
+      "owner": "growth-team",
+      "title": "email 格式不合法"
+    },
+    {
+      "id": "R-006",
+      "type": "enum",
+      "column": "status",
+      "values": ["paid", "pending", "refunded", "cancelled"],
+      "severity": "medium",
+      "owner": "orders-team",
+      "title": "status 不在允许枚举内"
+    },
+    {
+      "id": "R-007",
+      "type": "length",
+      "column": "phone",
+      "min": 11,
+      "max": 11,
+      "severity": "low",
+      "owner": "growth-team",
+      "title": "phone 必须为 11 位"
+    },
+    {
+      "id": "R-008",
+      "type": "freshness",
+      "column": "event_date",
+      "max_days": 7,
+      "severity": "high",
+      "owner": "data-platform",
+      "title": "event_date 超过 7 天未更新"
+    },
+    {
+      "id": "R-009",
+      "type": "consistency",
+      "columns": ["status", "payment_status"],
+      "mode": "equal",
+      "severity": "medium",
+      "owner": "payments-team",
+      "title": "status 与 payment_status 不一致"
+    }
+  ]
+}
